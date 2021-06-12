@@ -22,9 +22,12 @@ welcom_text()
 
 
 def read(path):
-    with open(path,'r') as file:
-     content = file.read()
-    return contenthumanty
+    try:
+        with open(path,'r') as file:
+            content = file.read()
+            return content
+    except FileNotFoundError:
+        return 'FILE NOT FOUND'
 
 read('assets/madlib_source.txt')
 
@@ -41,16 +44,22 @@ def questions():
     return values
 
 def merge(text,answers):
-    dataText = text
-    answer=dataText.format(*answers)
-    print(answer)  
-    return answer
+    try:
+       dataText = text
+       answer=dataText.format(*answers)
+       print(answer)  
+       return answer
+    except:
+        return 'merging error'
 
 with open('assets/madlib_result.txt', 'w') as file:
     file.write(merge(read('assets/madlib_source.txt'),questions()))
 
 
 def parse(path):
-    data=re.findall(r"\{(.*?)\}",read(path))  
-    return data
+    try:
+        data=re.findall(r"\{(.*?)\}",read(path))  
+        return data
+    except:
+        return "error"    
 print(parse('assets/madlib_source.txt'))
